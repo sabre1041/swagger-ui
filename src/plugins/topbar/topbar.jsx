@@ -25,6 +25,11 @@ export default class Topbar extends React.Component {
   }
 
   loadSpec = (url) => {
+
+    if(url && !url.includes("swagger.json")) {
+    url = url + "/swagger.json"
+    }
+
     this.props.specActions.updateUrl(url)
     this.props.specActions.download(url)
   }
@@ -121,7 +126,8 @@ export default class Topbar extends React.Component {
     }
     else {
       formOnSubmit = this.downloadUrl
-      control.push(<input className="download-url-input" type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} style={inputStyle} />)
+      control.push(<input className="download-url-input" placeholder="https://master.ocp.example.com:8443" type="text" onChange={ this.onUrlChange } disabled={isLoading} style={inputStyle} />)
+      control.push(<input className="download-url-oauth" placeholder="openshift_token" type="text" disabled={isLoading} style={inputStyle} />)
       control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>)
     }
 

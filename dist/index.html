@@ -74,9 +74,19 @@ window.onload = function() {
   
   // Build a system
   const ui = SwaggerUIBundle({
-    url: "http://petstore.swagger.io/v2/swagger.json",
+    url: "",
     dom_id: '#swagger-ui',
-    deepLinking: true,
+    requestInterceptor: (req) => {
+      oauthToken = document.getElementsByClassName("download-url-oauth")[0].value.trim()
+      if(oauthToken.length > 0) {
+        req.headers['Authorization'] = "Bearer " + oauthToken
+      }
+      return req
+    },
+    deepLinking: false,
+    docExpansion: "none",
+    validatorUrl: null,
+    showMutatedRequest: true,
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset
